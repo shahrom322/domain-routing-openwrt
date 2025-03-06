@@ -51,11 +51,6 @@ If wireguard is used:
     wg_access_network: wg-network
 ```
 
-Dependencies
-------------
-
-[gekmihesg.openwrt](https://github.com/gekmihesg/ansible-openwrt)
-
 
 Example Playbook
 ----------------
