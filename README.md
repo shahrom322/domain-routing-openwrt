@@ -217,5 +217,3 @@ service getdomains start
 ```
 
 ---
-
-[Telegram-канал с обновлениями](https://t.me/+lW1HmBO_Fa00M2Iy)
