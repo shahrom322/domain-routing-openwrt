@@ -582,7 +582,7 @@ add_packages() {
         else
             printf "\033[32;1mInstalling $package...\033[0m\n"
             opkg install "$package"
-            
+
             if "$package" --version >/dev/null 2>&1; then
                 printf "\033[32;1m$package was successfully installed and available\033[0m\n"
             else
@@ -591,6 +591,14 @@ add_packages() {
             fi
         fi
     done
+}
+
+# Создание директории для пользовательских доменов
+init_user_domains_dir() {
+    printf "\033[32;1mCreating user domains directory\033[0m\n"
+    mkdir -p /etc/getdomains
+    touch /etc/getdomains/user-domains.conf
+    touch /etc/getdomains/exclude-domains.conf
 }
 
 add_getdomains() {
@@ -662,6 +670,23 @@ cat << 'EOF' >> /etc/init.d/getdomains
             count=$((count+1))
         fi
     done
+
+    # Apply domain exclusions
+    if [ -f /etc/getdomains/exclude-domains.conf ] && [ -s /etc/getdomains/exclude-domains.conf ]; then
+        while IFS= read -r domain || [ -n "$domain" ]; do
+            [ -n "$domain" ] && sed -i "/$domain/d" /tmp/dnsmasq.d/domains.lst
+        done < /etc/getdomains/exclude-domains.conf
+        echo "Applied domain exclusions"
+    fi
+
+    # Generate user domains list
+    if [ -f /etc/getdomains/user-domains.conf ] && [ -s /etc/getdomains/user-domains.conf ]; then
+        > /tmp/dnsmasq.d/user-domains.lst
+        while IFS= read -r domain || [ -n "$domain" ]; do
+            [ -n "$domain" ] && echo "nftset=/$domain/4#inet#fw4#vpn_domains" >> /tmp/dnsmasq.d/user-domains.lst
+        done < /etc/getdomains/user-domains.conf
+        echo "Generated user domains list"
+    fi
 
     if dnsmasq --conf-file=/tmp/dnsmasq.d/domains.lst --test 2>&1 | grep -q "syntax check OK"; then
         /etc/init.d/dnsmasq restart
@@ -1001,6 +1026,8 @@ dnsmasqfull
 dnsmasqconfdir
 
 add_dns_resolver
+
+init_user_domains_dir
 
 add_getdomains
 

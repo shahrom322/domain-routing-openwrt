@@ -11,6 +11,18 @@ sed -i '/getdomains start/d' /etc/crontabs/root
 
 echo "Выпиливаем домены"
 rm -f /tmp/dnsmasq.d/domains.lst
+rm -f /tmp/dnsmasq.d/user-domains.lst
+
+echo "Удалять пользовательские домены? (/etc/getdomains/)"
+echo "1) Да, удалить"
+echo "2) Нет, оставить"
+read -r choice
+if [ "$choice" = "1" ]; then
+    rm -rf /etc/getdomains
+    echo "Пользовательские домены удалены"
+else
+    echo "Пользовательские домены сохранены в /etc/getdomains/"
+fi
 
 echo "Чистим firewall, раз раз 🍴"
 
