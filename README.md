@@ -9,12 +9,12 @@ Shell скрипт и [роль для Ansible](https://galaxy.ansible.com/ui/st
 
 # Скрипт для установки
 ```
-sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/master/getdomains-install.sh)
+sh <(wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-install.sh)
 ```
 
 # Скрипт для удаления
 ```
-sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/refs/heads/master/getdomains-uninstall.sh)
+sh <(wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/refs/heads/master/getdomains-uninstall.sh)
 ```
 
 ## AmneziaWG
@@ -31,28 +31,47 @@ sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwr
 
 ### Запуск
 ```
-wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/master/getdomains-check.sh | sh
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-check.sh | sh
 ```
 
 По-умолчанию запускается на русском языке. Если нужно запустить на английском, то после `sh` нужно добавить `-s --lang en`. Аналогично для проверок на подмену DNS и создания дампа.
 
 ```
-wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/master/getdomains-check.sh | sh -s --lang en
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-check.sh | sh -s --lang en
 ```
 
 ### Запустить с проверкой на подмену DNS
 ```
-wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/master/getdomains-check.sh | sh -s dns
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-check.sh | sh -s dns
 ```
 
 ### Запустить с созданием dump
 Все чувствительные переменные затираются.
 
 ```
-wget -O - https://raw.githubusercontent.com/itdoginfo/domain-routing-openwrt/master/getdomains-check.sh | sh -s dump
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-check.sh | sh -s dump
 ```
 
 Поиск ошибок вручную: https://habr.com/ru/post/702388/
+
+## Скрипт для управления доменами
+Позволяет добавлять свои домены в туннель или исключать домены из туннелирования.
+
+### Запуск
+```
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-manage.sh | sh
+```
+
+### Возможности
+- Добавить домен в туннель
+- Удалить домен из туннеля
+- Исключить домен из туннелирования (убрать из основного списка)
+- Убрать исключение домена
+- Просмотр добавленных и исключённых доменов
+
+Пользовательские домены хранятся в `/etc/getdomains/`:
+- `user-domains.conf` - добавленные домены
+- `exclude-domains.conf` - исключённые домены
 
 # Ansible
 Установить роль

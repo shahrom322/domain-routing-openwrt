@@ -3,6 +3,36 @@ Domain routing OpenWrt
 
 Configuring domain routing on Openwrt router.
 
+Shell Scripts
+-------------
+
+### Install
+```
+sh <(wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-install.sh)
+```
+
+### Uninstall
+```
+sh <(wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-uninstall.sh)
+```
+
+### Domain Management
+Manage user domains for tunneling - add your own domains or exclude domains from routing.
+
+```
+wget -O - https://raw.githubusercontent.com/shahrom322/domain-routing-openwrt/master/getdomains-manage.sh | sh
+```
+
+Features:
+- Add domain to tunnel
+- Remove domain from tunnel
+- Exclude domain from tunneling (remove from main list)
+- Remove domain exclusion
+- View added and excluded domains
+
+User domains are stored in `/etc/getdomains/`:
+- `user-domains.conf` - added domains
+- `exclude-domains.conf` - excluded domains
 
 Role Variables
 --------------
